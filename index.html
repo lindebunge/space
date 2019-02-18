@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceX ITSI</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!--Het lettertype-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <!--D3 is een library voor heel veel datavisualisaties, ik heb ze gebruikt voor de cirkels met progress-->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+</head>
+
+<body>
+
+
+<!--de grid container voor het goed opmaken en responsive houden van de website-->
+<div class="grid-container">
+
+    <!--het spacex logo-->
+    <div id="spacex">SPACEX</div>
+
+    <!--de ontertitel-->
+    <div id="ondertitel">THE FLIGHT SPACH INFORMATION</div>
+
+    <!--de snelheids meter-->
+    <div class="speed">
+        <div>
+            <div style="text-align: center; width: 20%;float: left;height:100px">
+                <div style="width: 20%; height: 100px;" class="kopje">
+                    <br>
+                SPEED
+                </div>
+            </div>
+            <div style="width: 80%;float: left;height: 100px">
+                <div id="currentSpeed" style="float: right">1234234 KM/H</div>
+                <div id="speedbar" style="margin-top: 40px;margin-bottom: 40px; width: 90%; height: 8px;"></div>
+
+                <div style="float: left">
+                0 KM/H
+                </div>
+                <div style="float: right">
+                200000 KM/H
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!--De countdown timer, alle getallen en letters zijn losse divs
+    zodat makkelijk de content aangepast kan worden door het script-->
+    <div class="voortgang">
+        <div class="countdown">
+            <div class="timer" id="days">
+
+            </div>
+            <div class="kopje">Days</div>
+        </div>
+        <div class="countdown">
+            <div class="timer" id="hours">
+
+            </div>
+            <div class="kopje">Hours</div>
+        </div>
+        <div class="countdown">
+            <div class="timer" id="minutes">
+
+            </div>
+            <div class="kopje">Minutes</div>
+        </div>
+        <div class="countdown">
+            <div class="timer" id="seconds">
+
+            </div>
+            <div class="kopje">Seconds</div>
+        </div>
+    </div>
+
+
+<!--De water meter-->
+    <div id="water" class="naastcirkel kopje">WATER</div>
+    <div id="watermeter" class='meter'></div>
+
+    <!--De eten meter-->
+    <div id="eten" class="naastcirkel kopje">FOOD</div>
+    <div id="etenmeter" class="meter"></div>
+
+
+</div>
+
+</body>
+<!--countdown scripts van w3schools-->
+<script src="js/timer.js"> </script>
+
+<!--cirkels met progress van codepen via google search (met D3 samen)-->
+<script>
+    // https://codepen.io/rogerxu/pen/rLqvd
+
+    var colors = {
+        'pink': '#E1499A',
+        'yellow': '#f0ff08',
+        'green': '#47e495',
+        'white': '#ffffff'
+    };
+
+    var color = colors.white;
+
+    var radius = 100;
+    var border = 5;
+    var padding = 30;
+    var startPercent = 0;
+    var endPercent = 0.85;
+
+
+    var twoPi = Math.PI * 2;
+    var formatPercent = d3.format('.0%');
+    var boxSize = (radius + padding) * 2;
+
+
+    var count = Math.abs((endPercent - startPercent) / 0.01);
+    var step = endPercent < startPercent ? -0.01 : 0.01;
+
+    var arc = d3.svg.arc()
+        .startAngle(0)
+        .innerRadius(radius)
+        .outerRadius(radius - border);
+
+    // var parent = d3.select('div#content');
+
+    var parent = d3.selectAll('.meter');
+
+    var svg = parent.append('svg')
+        .attr('width', boxSize)
+        .attr('height', boxSize);
+
+    var defs = svg.append('defs');
+
+    var filter = defs.append('filter')
+        .attr('id', 'blur');
+
+    filter.append('feGaussianBlur')
+        .attr('in', 'SourceGraphic')
+        .attr('stdDeviation', '7');
+
+    var g = svg.append('g')
+        .attr('transform', 'translate(' + boxSize / 2 + ',' + boxSize / 2 + ')');
+
+    var meter = g.append('g')
+        .attr('class', 'progress-meter');
+
+    meter.append('path')
+        .attr('class', 'background')
+        .attr('fill', '#ccc')
+        .attr('fill-opacity', 0.5)
+        .attr('d', arc.endAngle(twoPi));
+
+    var foreground = meter.append('path')
+        .attr('class', 'foreground')
+        .attr('fill', color)
+        .attr('fill-opacity', 1)
+        .attr('stroke', color)
+        .attr('stroke-width', 5)
+        .attr('stroke-opacity', 1)
+        .attr('filter', 'url(#blur)');
+
+    var front = meter.append('path')
+        .attr('class', 'foreground')
+        .attr('fill', color)
+        .attr('fill-opacity', 1);
+
+    var numberText = meter.append('text')
+        .attr('fill', '#fff')
+        .attr('text-anchor', 'middle')
+        .attr('dy', '.35em');
+
+    function updateProgress(progress) {
+        foreground.attr('d', arc.endAngle(twoPi * progress));
+        front.attr('d', arc.endAngle(twoPi * progress));
+        numberText.text(formatPercent(progress));
+    }
+
+    var progress = startPercent;
+
+    (function loops() {
+        updateProgress(progress);
+
+        if (count > 0) {
+            count--;
+            progress += step;
+            setTimeout(loops, 10);
+        }
+    })();
+
+
+</script>
+
+<!--voor de snelheidsmeter:-->
+<script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/1.0.0/dist/progressbar.js"></script>
+<script src="js/speedbar.js"></script>
+
+
+
+</html>

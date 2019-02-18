@@ -1,0 +1,185 @@
+
+/* Algemene CSS */
+
+/* De witte rand van de body weghalen en de font-family aanpassen en de achtergrond kiezen*/
+body {
+    margin: 0px;
+    font-family: 'Roboto', sans-serif;
+    background-image: url("../images/mars.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    color: white;
+}
+
+/* de grid-container waar alle blokken inzitten */
+.grid-container {
+    display: grid;
+    margin-left: 10%;
+    margin-right: 10%;
+    grid-template-columns: 25% 25% 25% 25%;
+
+    grid-template-areas:
+            'titel1 titel2 titel3 titel4'
+            'ondertitel ondertitel ondertitel ondertitel'
+            'blok1 blok2 blok3 blok4'
+            'blok5 blok6 blok7 blok8'
+            'blok9 blok10 blok11 blok12'
+            'blok13 blok14 blok15 blok16'
+;
+}
+
+.kopje {
+    font-size: 200%;
+    font-weight: bolder;
+    text-align: center;
+}
+
+/*Het spaceX dikker en groter maken*/
+#spacex {
+    grid-column-start: titel1;
+    grid-column-end: titel4;
+    grid-row: titel1;
+
+    text-align: center;
+    padding-top: 5%;
+
+    font-size: 600%;
+    font-weight: bolder;
+}
+
+/*De ondertitel groter maken*/
+#ondertitel {
+    grid-column: ondertitel;
+    grid-row: ondertitel;
+
+    text-align: center;
+
+    font-size: 300%;
+}
+
+/*De hele speed balk uitlijnen en afstand geven*/
+.speed {
+    grid-column-start: blok1;
+    grid-column-end: blok4;
+    grid-row: blok1;
+    padding-top: 5%;
+}
+
+/*Extra ruimte tussen de countdown timer en de speed meter*/
+.voortgang{
+    grid-column-start: blok5;
+    grid-column-end: blok8;
+    grid-row: blok5;
+    padding-top: 10%;
+}
+
+.countdown {
+     float: left;
+    text-align: center;
+    width: 25%;
+ }
+
+.timer{
+    font-size: 250%;
+    font-weight: bolder;
+}
+
+#water {
+    grid-column-start: blok9;
+    grid-column-end: blok10;
+    grid-row: blok9;
+}
+
+#watermeter {
+    grid-column-start: blok11;
+    grid-column-end: blok12;
+    grid-row: blok9;
+}
+
+#eten {
+    grid-column-start: blok13;
+    grid-column-end: blok14;
+    grid-row: blok13;
+
+}
+
+#etenmeter {
+    grid-column-start: blok15;
+    grid-column-end: blok16;
+    grid-row: blok13;
+}
+
+.naastcirkel {
+    position: relative;
+    top: 40%;
+}
+
+
+
+/*desktop & tablet: ondertitel ernaast*/
+@media only screen and (min-width: 900px) {
+    #spacex {
+        grid-column-start: titel1;
+        grid-column-end: titel2;
+        grid-row: titel1;
+
+        text-align: center;
+        padding-top: 5%;
+        padding-left: 15%;
+
+        font-size: 600%;
+        font-weight: bolder;
+    }
+
+    #ondertitel {
+        grid-column-start: titel3;
+        grid-column-end: titel4;
+        grid-row: titel1;
+
+        text-align: center;
+        padding-top: 5%;
+        padding-right: 15%;
+
+        font-size: 260%;
+    }
+}
+
+
+/*desktop: de cirkels naast elkaar zetten ipv onder elkaar*/
+@media only screen and (min-width: 1000px) {
+    #water {
+        grid-column: blok9;
+        grid-row: blok9;
+        padding-top: 15%;
+    }
+
+    #watermeter {
+        grid-column: blok10;
+        grid-row: blok9;
+        padding-top: 15%;
+    }
+
+    #eten {
+        grid-column: blok11;
+        grid-row: blok9;
+        padding-top: 15%;
+
+    }
+
+    #etenmeter {
+        grid-column: blok12;
+        grid-row: blok9;
+        padding-top: 15%;
+    }
+
+}
+
+/*echt hele kleine telefoons: de font size iets kleiner maken omdat er anders overlap is met de tekst en de balkjes*/
+@media only screen and (max-width: 600px) {
+    .kopje{
+        font-size: 100%;
+    }
+
+}
+
